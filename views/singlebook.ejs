@@ -22,7 +22,7 @@
         </div>
         <div class="col-6 mt-5">
             <% if (book.image) { %>
-                <div class="card" style="width: 18rem;">
+                <div class="card" style="width: 16rem;">
                     <img src="/uploads/<%= book.image %>" class="card-img-top" alt="<%= book.title %>" >
                     <div class="card-body text-center">
                         <h5 class="card-title"> <%= book.title.slice(0, 1).toUpperCase() + book.title.slice(1) %> </h5>
