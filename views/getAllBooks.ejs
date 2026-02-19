@@ -1,0 +1,60 @@
+<%- include('./partials/Header.ejs') %>
+    <div class="container-fluid">
+
+        <div class="row">
+            <h1 class="text-center text-danger my-3 ">Here Is the Books List</h1>
+            <a href="/" style="display: inline">Back</a>
+            <form action="/getallbooks" method="get" id="searchForm">
+                <div class="col-4 offset-4 my-4" style="display: flex;gap:10px;">
+                    <input 
+                        type="search" 
+                        name="title" 
+                        size="20" 
+                        id="search" 
+                        class="form-control"
+                        placeholder="Search by title"
+                        value="<%= searchTitle || '' %>"
+                        onchange="document.getElementById('searchForm').submit()"> 
+                    <button type="submit" class="btn btn-success">Search</button>
+                </div>
+            </form>
+            <p>Total Records Found: <%= books.length %></p>
+        </div>
+
+        <div class="row">
+            <% books.forEach((book, id)=> {%>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <% if (book.image) { %>
+                            <img src="/uploads/<%= book.image %>" class="card-img-top"
+                                style="height:250px;; object-fit:cover;">
+                            <% } else { %>
+                                <!-- <h1>No Image</h1> -->
+                                <img src="" height="250" width="250" class="card-img-top" alt="Na">
+                                <% } %>
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">
+                                            <%= book.title.slice(0, 1).toUpperCase() + book.title.slice(1) %>
+                                        </h5>
+                                        <p class="card-text">
+                                            <strong>Author:</strong>
+                                            <%= book.author %><br>
+                                                <strong>Price:</strong> ₹<%= book.price %>
+                                        </p>
+                                    </div>
+                                    <div class="card-footer text-center bg-white">
+                                        <a href="/getsinglebooks/<%= book._id %>" class="btn btn-primary btn-sm">View</a>
+
+                                        <a href="/books/<%= book._id %>/edit" class="btn btn-warning btn-sm">Edit</a>
+
+                                        <form action="/books/<%= book._id %>?_method=DELETE" method="POST"
+                                            style="display:inline;">
+                                            <button class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </div>
+                    </div>
+                </div>
+                <%}) %>
+        </div>
+    </div>
+    <%- include('./partials/Footer.ejs') %>

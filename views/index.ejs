@@ -1,0 +1,137 @@
+<%- include('./partials/Header.ejs') %>
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col">
+                <h5 class="text-end text-danger">
+                    <a href="/getallbooks" class="text-danger text-decoration-none " >
+                        Get All Books Collection Here
+                    </a>
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h2 class="alert alert-success text-center">
+                    Kindly Add New Student Records
+                </h2>
+                <!-- Display Errors -->
+                <% if (typeof errors !=='undefined' ) { %>
+                    <div style="color:red;">
+                        <ul>
+                            <% errors.forEach(error=> { %>
+                                <li>
+                                    <%= error %>
+                                </li>
+                                <% }) %>
+                        </ul>
+                    </div>
+                    <% } %>
+                        <form action="" method="post" enctype="multipart/form-data" novalidate>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="title" class="form-label">Book title</label>
+                                    <input type="text" class="form-control" id="title" name="title" />
+                                </div>
+                                <div class="col-6">
+                                    <label for="author" class="form-label">Book Author Name</label>
+                                    <input type="text" class="form-control" id="author" name="author" />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Book price (INR)</label>
+                                <input type="text" class="form-control" id="price" name="price" />
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label for="description" class="form-label">Book description</label>
+                                        <input type="text" class="form-control" id="description" name="description" />
+                                    </div>
+                                    <div class="col-8">
+                                        <label for="image" class="form-label">Upload Your Book Image</label>
+                                        <input type="file" name="image" class="form-control"><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </form>
+            </div>
+            <div class="col-sm-6" style="height: 100px; width: 50%;">
+                <h4 class="alert alert-info text-center">All Student Records</h4>
+                <div class="row py-3 mt-3">
+                    <div class="col">
+                        <!-- 🔍 Search by Author -->
+                        <form action="" method="get" id="searchForm" style="display: flex;justify-content: space-around; gap: 5px;" >
+                            <label for="author"> Author</label>
+                            <select name="author" onchange="document.getElementById('searchForm').submit()" class="form-select">
+                                <option value="">--All AUthors--</option>
+                                <% authors.forEach(author=> { %>
+                                    <option value="<%= author %>" <%=searchAuthor===author ? "selected" : "" %>>
+                                        <%= author %>
+                                    </option>
+                                <% }) %>
+                            </select>
+                            <input 
+                                type="search" 
+                                name="searchbooktitle" 
+                                id="search" 
+                                class="form-control"
+                                value="<%= searchbooktitle || '' %>"
+                                onchange="document.getElementById('searchForm').submit()">
+                            <button type="submit" class="btn btn-success">Search</button>
+                        </form>
+                    </div>
+                </div>
+                <%# Show all data %>
+                    <div class="table-scroll">
+                        <table class="table table-hovered ">
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Book Title</th>
+                                    <th>Book Author Name</th>
+                                    <th>Book price</th>
+                                    <th>Book description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% books.forEach((book, id)=> {%>
+                                    <tr>
+                                        <td>
+                                            <%= id+1 %>
+                                        </td>
+                                        <td>
+                                            <a href="/getsinglebooks/<%= book.id %>" class="bg-light">
+                                                <%= book.title.toUpperCase() %>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <%= book.author.slice(0, 10) %>
+                                        </td>
+                                        <td>
+                                            <%= book.price %>
+                                        </td>
+                                        <td>
+                                            <%= book.description.slice(0, 10) %>
+                                        </td>
+                                        <td class="d-flex">
+                                            <a href="/edit/<%= book.id %>" class="bg-light">
+                                                <i class="fa-solid fa-pen-to-square text-success mx-3 bg-light"
+                                                    title="edit"></i>
+                                            </a>
+                                            <a href="/deletebooks/<%= book.id %>""  class=" bg-light">
+                                                <i title="Delete" class="fa-solid fa-trash text-danger bg-light"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <%}) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <caption>Total Books: <%= books.length %>
+            </div>
+        </div>
+    </div>
+    <%- include('./partials/Footer.ejs') %>

@@ -1,0 +1,15 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: white;
+}
+.table-scroll{
+    max-height: 350px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+/* .table{
+    width: 100%;
+    background-color: lightblue;
+} */
